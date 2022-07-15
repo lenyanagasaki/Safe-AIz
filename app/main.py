@@ -5,17 +5,17 @@ from flask import render_template
 from url_utils import get_base_url
 import os
 import torch
-
+from collections import Counter
 # setup the webserver
 # port may need to be changed if there are multiple flask servers running on same server
-port = 12345
+port = 12347
 base_url = get_base_url(port)
 
 # if the base url is not empty, then the server is running in development, and we need to specify the static folder so that the static files are served
 if base_url == '/':
     app = Flask(__name__)
 else:
-    app = Flask(__name__, static_url_path=base_url+'static')
+    app = Flask(__name__)#, static_url_path=base_url+'static')
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -29,8 +29,31 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route(f'{base_url}', methods=['GET', 'POST'])
+@app.route(f'{base_url}/', methods=['GET', 'POST'])
 def home():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+
+    return render_template('home.html')
+
+@app.route(f'/', methods=['GET', 'POST'])
+def home1():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -56,13 +79,13 @@ def home():
 @app.route(f'{base_url}/uploads/<filename>')
 def uploaded_file(filename):
     here = os.getcwd()
-    image_path = os.path.join(here, app.config['UPLOAD_FOLDER'], filename)
+    image_path = os.path.join(here, app.config['UPLOAD_FOLDER'], filename) #
     results = model(image_path, size=416)
     if len(results.pandas().xyxy) > 0:
         results.print()
         save_dir = os.path.join(here, app.config['UPLOAD_FOLDER'])
         results.save(save_dir=save_dir)
-        def and_syntax(alist):
+        def conf_syntax(alist):
             if len(alist) == 1:
                 alist = "".join(alist)
                 return alist
@@ -75,25 +98,50 @@ def uploaded_file(filename):
                 return alist
             else:
                 return
+        def labels_syntax(alist):
+            if len(alist) == 1:
+                return 'a ' + alist[0]
+            if len(alist) == 0:
+                return
+            
+            # create counter to count how many items of each unique label we have
+            out = ''
+            counts = Counter(alist)
+            for i in range(len(counts.most_common()) - 1):
+                count = counts.most_common()[i]
+                out += str(count[1]) + ' ' + count[0] + ', '
+            count = counts.most_common()[-1]
+
+            out += ['', 'and '][len(counts) > 1] + str(count[1]) + ' ' + count[0]
+            
+            return out
+        
+        
         confidences = list(results.pandas().xyxy[0]['confidence'])
         # confidences: rounding and changing to percent, putting in function
         format_confidences = []
         for percent in confidences:
             format_confidences.append(str(round(percent*100)) + '%')
-        format_confidences = and_syntax(format_confidences)
+        format_confidences = conf_syntax(format_confidences)
 
         labels = list(results.pandas().xyxy[0]['name'])
         # labels: sorting and capitalizing, putting into function
-        labels = set(labels)
-        labels = [emotion.capitalize() for emotion in labels]
-        labels = and_syntax(labels)
+        labels = [item.capitalize() for item in labels]
+        labels = labels_syntax(labels)
         return render_template('results.html', confidences=format_confidences, labels=labels,
                                old_filename=filename,
                                filename=filename)
     else:
         found = False
-        return render_template('results.html', labels='No Emotion', old_filename=filename, filename=filename)
+        return render_template('results.html', labels='No Weapons', old_filename=filename, filename=filename)
 
+@app.route(f'{base_url}/setup')
+def setup():
+    return render_template('setup.html')
+
+@app.route(f'/setup')
+def setup1():
+    return render_template('setup.html')
 
 @app.route(f'{base_url}/uploads/<path:filename>')
 def files(filename):
@@ -107,7 +155,7 @@ def files(filename):
 
 if __name__ == '__main__':
     # IMPORTANT: change url to the site where you are editing this file.
-    website_url = 'url'
+    website_url = 'cocalc22.ai-camp.dev'
     
     print(f'Try to open\n\n    https://{website_url}' + base_url + '\n\n')
     app.run(host = '0.0.0.0', port=port, debug=True)

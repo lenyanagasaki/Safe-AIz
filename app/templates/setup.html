@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Safe AIZ</title>
+        <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/98/98496.png" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <img src="https://cdn-icons-png.flaticon.com/512/98/98496.png" alt="logo" width =75 height=75/>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <h1 class="mx-auto my-0" style="color:black;" style="text-align:center;">Safe AIz</h1>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                      
+ 
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- 'Masthead'-->
+        <header class="">
+            <div class="container px-4 px-lg-5 d-flex h-100 justify-content-center">
+                <div >
+                    <div>
+                      <br>
+                      <br>
+                      <br>
+                      <h2 style = 'text-align:center'>
+                        <b>Instructions:</b>
+                      </h2>
+                      <ol>
+                        <li>download <a
+                                   href='https://www.anaconda.com/products/distribution' target='_blank'>Anaconda</a></li>
+                        <li>download <a href='https://git-scm.com/downloads' target='_blank'>Git</a></li>
+                        <li>launch anaconda prompt</li>
+                        <li>run "git clone https://github.com/OnePointOh/Safe_Aiz_detect/"</li>
+                        <li>run "cd Safe_Aiz_detect"</li>
+                        <li>run "pip install -r requirements.txt"</li>
+                        <li>run "python detect.py --weight best.pt --source 0 --conf 0.5"  </li>
+                      </ol>
+                      When you are done, you can stop running by pressing Ctrl+C in the Anaconda Prompt
+                      <h2 style = 'text-align:center'>
+                        And you're ready to go!
+                      </h2>
+                 
+                      <br>
+                      <br>
+                      <div class="justify-content-center text-center">
+                        <a class="btn btn-primary" href="/">Home</a>
+                      </div>
+                        
+                      <div class="u-container-layout u-valign-middle u-container-layout-2">
+                      <br>
+                        
+                     <br>
+                      </div>
+                     </div>
+                  </div>
+              </div>
+
+ 
+        </header>
+        <!-- About-->
+<!--        <section class="about-section text-center">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8">
+                      <div id="about">
+                        <div class="container">
+                          <h2 class="text-white mb-4">Our product is not perfect</h2>
+                          
+  <div class="col-sm">
+    <div class="row">
+      <p class="text-white-50">
+        With the three weeks we were given to find the pictures for the dataset, label them, train the model, and create the website, our AI model is not perfect and it may identify somethings incorrectly.</p>
+    </div>
+    <div class="row">
+      <img src="{{ url_for('static', filename='assets/img/CurrentConfMtrx.png') }}" id="confMtrx" width=350 height=350>
+      <a href='https://github.com/OnePointOh/Safe_Aiz_detect' target='_blank'><img class="img-fluid" src="{{ url_for('static', filename='assets/img/GitHub-Emblem.png') }}" width='128' height='72' alt="github_button" style="width:100%"/></a>
+    </div>
+  </div>
+</div>
+              
+
+                      </div>
+                    </div>
+                </div>
+                
+            </div>
+      </section> -->
+      <div class="container px-4 px-lg-5 d-flex h-100 justify-content-center">
+          <a href='https://github.com/OnePointOh/Safe_Aiz_detect' target='_blank'><img class="img-fluid" src="{{ url_for('static', filename='assets/img/GitHub-Emblem.png') }}" style="width:128px;height:72px;" alt="github_button" style="width:100%"/></a>
+        </div>
+ 
+    
+        <!-- Footer-->
+        <footer class="footer bg-black small text-center text-white-50">
+        
+          <div class="container px-4 px-lg-5">Copyright &copy; Safe AIz 2022</div></footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                 <h3 style="color:white">
+                    Github repositories link
+                  </h3>               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
